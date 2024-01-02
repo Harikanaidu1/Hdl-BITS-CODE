@@ -1,0 +1,47 @@
+PROCEDURES:
+1.Build a 2-to-1 mux that chooses between a and b. Choose b if both sel_b1 and sel_b2 are true. Otherwise, choose a. Do the same twice, once using assign statements and once using a procedural if statement
+code:
+module top_module(
+    input a,
+    input b,
+    input sel_b1,
+    input sel_b2,
+    output wire out_assign,
+    output reg out_always   );
+    always @(*) begin
+        if((sel_b1 && sel_b2)==1)begin
+            out_always=b;
+        end
+        else begin
+            out_always=a;
+        end
+    end
+    assign out_assign=(sel_b1 && sel_b2)? b: a;
+
+endmodule
+2.Build an XOR gate three ways, using an assign statement, a combinational always block, and a clocked always block. Note that the clocked always block produces a different circuit from the other two: There is a flip-flop so the output is delayed.
+code:
+module top_module(
+    input clk,
+    input a,
+    input b,
+    output wire out_assign,
+    output reg out_always_comb,
+    output reg out_always_ff   );
+    assign out_assign=a^b;
+    always@(*) out_always_comb=a^b;
+    always@(posedge clk) out_always_ff=a^b;
+
+endmodule
+3.Build an AND gate using both an assign statement and a combinational always block. (Since assign statements and combinational always blocks function identically, there is no way to enforce that you're using both methods. But you're here for practice, right?...)
+code:
+module top_module(
+    input a, 
+    input b,
+    output wire out_assign,
+    output reg out_alwaysblock
+);
+    assign out_assign=a&b;
+    always@(*) out_alwaysblock=a&b;
+
+endmodule
